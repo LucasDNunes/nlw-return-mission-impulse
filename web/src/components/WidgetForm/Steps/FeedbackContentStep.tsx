@@ -19,6 +19,7 @@ export function FeedbackContentStep(props: FeedbackContentStepProps) {
   const [isSendingFeedback, setIsSendingFeedback] = useState(false);
 
   const feedbackTypeInfo = feedbackTypes[props.feedbackType];
+  const isSendDisabled = comment.length === 0 || isSendingFeedback;
 
   async function handleSubmitFeedback(event: FormEvent){
     event.preventDefault();
@@ -30,11 +31,9 @@ export function FeedbackContentStep(props: FeedbackContentStepProps) {
       comment,
       screenshot
     });
-
     setIsSendingFeedback(false);
     props.onFeedbackSent();
   }
-
   return(
     <>
       <header>
@@ -70,8 +69,8 @@ export function FeedbackContentStep(props: FeedbackContentStepProps) {
 
           <button
             type="submit"
-            disabled={comment.length === 0 || isSendingFeedback}
-            className="p-2 bg-brand-500 rounded-md border-transparent flex-1 justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors disabled:opacity-50 disabled:hover:bg-brand-500"
+            disabled={isSendDisabled}
+            className="p-2 bg-brand-500 rounded-md border-transparent flex-1 flex justify-center items-center text-sm hover:bg-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-900 focus:ring-brand-500 transition-colors disabled:opacity-50 disabled:hover:bg-brand-500"
           >
             {isSendingFeedback ? <Loading /> : 'Enviar Feedback'}
           </button>
